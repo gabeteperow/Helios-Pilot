@@ -8,6 +8,6 @@
 2. Upload this folder: add `index.html` (and this README) to the repo.
 3. **Settings** → **Pages** → **Source**: choose **Deploy from a branch**.
 4. Branch: **main**, folder: **/ (root)** → **Save**.
-5. Your site will be at: `https://YOUR-USERNAME.github.io/helios-pilot/` (replace YOUR-USERNAME with your GitHub username).
+5. Your site will be at: `https://gabeteperow.github.io/helios-pilot/` (replace YOUR-USERNAME with your GitHub username).
 
 Data is stored in the browser (localStorage) only.
