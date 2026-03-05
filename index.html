@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helios Retail Partnership Pilot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .dashboard {
+            grid-column: span 2;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-column: span 1;
+            }
+        }
+        
+        .pilot-list {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th {
+            background: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-new {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .badge-active {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .calendly-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .calendly-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Helios Retail Partnership Pilot</h1>
+            <p>60-Day Pre-Sales Support Program</p>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            ✅ Submission successful! Book your prep call with Helios using the link below.
+        </div>
+        
+        <div class="content">
+            <!-- Submission Form -->
+            <div class="card">
+                <h2>📝 New Submission</h2>
+                <form id="submissionForm">
+                    <div class="form-group">
+                        <label for="companyName">Company Name *</label>
+                        <input type="text" id="companyName" name="companyName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="salesRep">Account Owner (Sales Rep) *</label>
+                        <input type="text" id="salesRep" name="salesRep" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="retailGMV">Retail GMV ($) *</label>
+                        <input type="number" id="retailGMV" name="retailGMV" placeholder="e.g., 500000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="totalGMV">Total GMV ($) *</label>
+                        <input type="number" id="totalGMV" name="totalGMV" placeholder="e.g., 1000000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priorities">Key Priorities & Challenges *</label>
+                        <textarea id="priorities" name="priorities" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reasons">Why do we need Helios on this call? (Top 2 reasons) *</label>
+                        <textarea id="reasons" name="reasons" placeholder="1. &#10;2. " required></textarea>
+                    </div>
+                    
+                    <button type="submit">Submit Request</button>
+                    
+                    <a href="https://calendly.com/YOUR-HELIOS-LINK" class="calendly-link" target="_blank" id="calendlyLink" style="display:none;">
+                        📅 Book Prep Call with Helios →
+                    </a>
+                </form>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="card">
+                <h2>📊 Pilot Stats</h2>
+                <div style="margin: 20px 0;">
+                    <h3 style="color: #667eea; font-size: 3em; margin: 10px 0;" id="activeCount">0</h3>
+                    <p style="color: #666;">Active Merchants in Pilot</p>
+                </div>
+                <div style="margin: 20px 0;">
+                    <h3 style="color: #764ba2; font-size: 2em; margin: 10px 0;" id="totalRetailGMV">$0</h3>
+                    <p style="color: #666;">Total Retail GMV in Pipeline</p>
+                </div>
+                <div style="margin: 20px 0;">
+                    <h3 style="color: #333; font-size: 2em; margin: 10px 0;" id="submissionCount">0</h3>
+                    <p style="color: #666;">Total Submissions</p>
+                </div>
+            </div>
+            
+            <!-- Dashboard Table -->
+            <div class="card dashboard">
+                <h2>📋 Pilot Submissions</h2>
+                <div class="pilot-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Account Owner</th>
+                                <th>Retail GMV</th>
+                                <th>Total GMV</th>
+                                <th>Status</th>
+                                <th>Submitted</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pilotTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #999; padding: 30px;">No submissions yet. Submit your first pilot request above.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'helios-pilot-submissions';
+
+        function getSubmissions() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveSubmissions(submissions) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function updateStats() {
+            const submissions = getSubmissions();
+            const activeCount = submissions.filter(s => s.status === 'active' || s.status === 'new').length;
+            const totalRetailGMV = submissions.reduce((sum, s) => sum + (Number(s.retailGMV) || 0), 0);
+
+            document.getElementById('activeCount').textContent = activeCount;
+            document.getElementById('totalRetailGMV').textContent = formatCurrency(totalRetailGMV);
+            document.getElementById('submissionCount').textContent = submissions.length;
+        }
+
+        function renderTable() {
+            const submissions = getSubmissions();
+            const tbody = document.getElementById('pilotTableBody');
+
+            if (submissions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999; padding: 30px;">No submissions yet. Submit your first pilot request above.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = submissions.map(s => {
+                const statusClass = s.status === 'new' ? 'badge-new' : 'badge-active';
+                return `
+                    <tr>
+                        <td>${escapeHtml(s.companyName)}</td>
+                        <td>${escapeHtml(s.salesRep)}</td>
+                        <td>${formatCurrency(Number(s.retailGMV) || 0)}</td>
+                        <td>${formatCurrency(Number(s.totalGMV) || 0)}</td>
+                        <td><span class="badge ${statusClass}">${escapeHtml(s.status)}</span></td>
+                        <td>${formatDate(s.submittedAt)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        document.getElementById('submissionForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const submissions = getSubmissions();
+            const newSubmission = {
+                id: Date.now(),
+                companyName: document.getElementById('companyName').value.trim(),
+                salesRep: document.getElementById('salesRep').value.trim(),
+                retailGMV: document.getElementById('retailGMV').value,
+                totalGMV: document.getElementById('totalGMV').value,
+                priorities: document.getElementById('priorities').value.trim(),
+                reasons: document.getElementById('reasons').value.trim(),
+                status: 'new',
+                submittedAt: new Date().toISOString()
+            };
+            submissions.unshift(newSubmission);
+            saveSubmissions(submissions);
+            updateStats();
+            renderTable();
+
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('calendlyLink').style.display = 'inline-block';
+            this.reset();
+        });
+
+        updateStats();
+        renderTable();
+    </script>
+</body>
+</html>
